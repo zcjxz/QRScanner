@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="com.guowei.qrscanner.MainActivity">
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/btn_flash"
+            android:padding="16dp"
+            android:layout_marginRight="100dp"
+            android:src="@drawable/shoudiantong"
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
+        <ImageView
+            android:id="@+id/btn_image"
+            android:padding="16dp"
+            android:src="@drawable/picture"
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
+    </LinearLayout>
+</FrameLayout>
