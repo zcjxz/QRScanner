@@ -23,23 +23,24 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView btnShare;
     private ClipboardManager cm;
     private Pattern w3Pattern;
+    private Pattern httpPattern;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_result);
         Intent intent = getIntent();
         result = intent.getStringExtra("result");
         //获取剪贴板管理器：
         cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         initView();
         //初始化正则
-        w3Pattern = Pattern
-                .compile("(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\/])+$");
-        if (w3Pattern.matcher(result).matches()) {
-            result = "http://" + result;
-        }
+        httpPattern = Pattern
+                .compile("^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\/])+$");
         resultText.setText(result);
+        if (!httpPattern.matcher(result).matches()){
+            btnOpen.setVisibility(View.GONE);
+        }
     }
 
     private void initView() {
@@ -60,11 +61,9 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                 ClipData mClipData = ClipData.newPlainText("result", result);
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
+                Toast.makeText(this, "成功复制到剪贴板", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_open:
-                Pattern httpPattern = Pattern
-                        .compile("^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\/])+$");
-
                 if (httpPattern.matcher(result).matches()) {
                     Toast.makeText(this, "正在打开http: " + result, Toast.LENGTH_SHORT).show();
                     Intent websiteIntent = new Intent();
