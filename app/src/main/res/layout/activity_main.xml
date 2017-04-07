@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_root"
     android:layout_width="match_parent"
@@ -15,20 +15,37 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="200dp"
         android:gravity="center">
+        <ImageView
+            android:id="@+id/btn_history"
+            android:padding="16dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/history"
+            android:layout_width="68dp"
+            android:layout_height="68dp" />
         <ImageView
             android:id="@+id/btn_flash"
             android:padding="16dp"
-            android:layout_marginRight="100dp"
             android:src="@drawable/shoudiantong"
-            android:layout_width="72dp"
-            android:layout_height="72dp" />
+            android:layout_width="86dp"
+            android:layout_height="86dp" />
         <ImageView
             android:id="@+id/btn_image"
             android:padding="16dp"
             android:src="@drawable/picture"
-            android:layout_width="72dp"
-            android:layout_height="72dp" />
+            android:layout_marginLeft="30dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp" />
     </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/main_activity_ad_id"/>
 </FrameLayout>

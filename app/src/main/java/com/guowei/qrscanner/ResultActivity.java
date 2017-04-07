@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.regex.Pattern;
 
 public class ResultActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,6 +27,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private ClipboardManager cm;
     private Pattern w3Pattern;
     private Pattern httpPattern;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,17 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
         btnCopy = (ImageView) findViewById(R.id.btn_copy);
         btnOpen = (ImageView) findViewById(R.id.btn_open);
         btnShare = (ImageView) findViewById(R.id.btn_share);
+        adView = (AdView) findViewById(R.id.adView);
         btnOpen.setOnClickListener(this);
         btnCopy.setOnClickListener(this);
         btnShare.setOnClickListener(this);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("73957908AF204D3C3BD6DD4DA2BD36F4")//红米4测试码
+                .addTestDevice("46E4E6B0DD6C71F38DC6F64A53BEAC0D")//华为测试码
+                .addTestDevice("00324B61CF9CF3A064D03C379CA05E5F")//联想测试码
+                .build();
+        adView.loadAd(adRequest);
     }
 
     @Override

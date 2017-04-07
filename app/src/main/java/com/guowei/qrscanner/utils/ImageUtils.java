@@ -1,4 +1,4 @@
-package com.guowei.qrscanner;
+package com.guowei.qrscanner.utils;
 
 
 import android.graphics.Bitmap;

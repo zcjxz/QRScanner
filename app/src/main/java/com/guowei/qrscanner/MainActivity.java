@@ -3,11 +3,8 @@ package com.guowei.qrscanner;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -20,11 +17,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.LuminanceSource;
-import com.google.zxing.RGBLuminanceSource;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.zxing.Result;
-import com.google.zxing.qrcode.QRCodeReader;
+import com.guowei.qrscanner.utils.QRCodeUtils;
 
 import java.io.IOException;
 
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private ImageView btnFlash;
     private ImageView btnImage;
     private final int IMG_REQUEST_CODE = 1;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +59,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         container = (FrameLayout) findViewById(R.id.container);
         btnFlash = (ImageView) findViewById(R.id.btn_flash);
         btnImage = (ImageView) findViewById(R.id.btn_image);
+        adView = (AdView) findViewById(R.id.adView);
         btnFlash.setOnClickListener(this);
         btnImage.setOnClickListener(this);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("73957908AF204D3C3BD6DD4DA2BD36F4")//红米4测试码
+                .addTestDevice("46E4E6B0DD6C71F38DC6F64A53BEAC0D")//华为测试码
+                .addTestDevice("00324B61CF9CF3A064D03C379CA05E5F")//联想测试码
+                .build();
+        adView.loadAd(adRequest);
     }
 
     @Override

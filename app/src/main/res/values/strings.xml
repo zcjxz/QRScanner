@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QRScanner</string>
+    <string name="main_activity_ad_id">ca-app-pub-4264047892026990/2476429665</string>
+    <string name="result_activity_ad_id">ca-app-pub-4264047892026990/5290295265</string>
 </resources>
