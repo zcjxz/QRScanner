@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="16dp">
+    <LinearLayout
+        android:id="@+id/line_history"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/text_history"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:text="www.baidu.com"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/btn_copy"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/copy"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_below="@id/line_history"
+        android:layout_marginTop="8dp"
+        android:gravity="bottom"
+        android:text="4-10"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.guowei.qrscanner;
+package com.guowei.qrscanner.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.guowei.qrscanner.R;
+import com.guowei.qrscanner.utils.CopyUtil;
 
 import java.util.regex.Pattern;
 
@@ -24,8 +26,6 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView btnCopy;
     private ImageView btnOpen;
     private ImageView btnShare;
-    private ClipboardManager cm;
-    private Pattern w3Pattern;
     private Pattern httpPattern;
     private AdView adView;
 
@@ -35,16 +35,14 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_result);
         Intent intent = getIntent();
         result = intent.getStringExtra("result");
-        //获取剪贴板管理器：
-        cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         initView();
         //初始化正则
         httpPattern = Pattern
                 .compile("^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\/])+$");
         resultText.setText(result);
-        if (!httpPattern.matcher(result).matches()){
-            btnOpen.setVisibility(View.GONE);
-        }
+//        if (!httpPattern.matcher(result).matches()){
+//            btnOpen.setVisibility(View.GONE);
+//        }
     }
 
     private void initView() {
@@ -69,11 +67,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_copy:
-                // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("result", result);
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                Toast.makeText(this, "成功复制到剪贴板", Toast.LENGTH_SHORT).show();
+                CopyUtil.copy(result);
                 break;
             case R.id.btn_open:
                 if (httpPattern.matcher(result).matches()) {
@@ -81,6 +75,13 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                     Intent websiteIntent = new Intent();
                     websiteIntent.setAction(Intent.ACTION_VIEW);
                     Uri websiteUri = Uri.parse(result);
+                    websiteIntent.setData(websiteUri);
+                    startActivity(websiteIntent);
+                }else{
+                    Intent websiteIntent = new Intent();
+                    websiteIntent.setAction(Intent.ACTION_VIEW);
+                    //这里踩了一个坑，如果这里没有加“http://”的话，就会报错，会找不到要启动的 activity
+                    Uri websiteUri = Uri.parse("http://"+result);
                     websiteIntent.setData(websiteUri);
                     startActivity(websiteIntent);
                 }

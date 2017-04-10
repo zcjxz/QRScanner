@@ -1,4 +1,4 @@
-package com.guowei.qrscanner;
+package com.guowei.qrscanner.ui;
 
 import android.Manifest;
 import android.content.Intent;
@@ -20,9 +20,13 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.zxing.Result;
+import com.guowei.qrscanner.R;
+import com.guowei.qrscanner.db.DBOperater;
 import com.guowei.qrscanner.utils.QRCodeUtils;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private ImageView btnImage;
     private final int IMG_REQUEST_CODE = 1;
     private AdView adView;
+    private ImageView btnHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         btnFlash = (ImageView) findViewById(R.id.btn_flash);
         btnImage = (ImageView) findViewById(R.id.btn_image);
         adView = (AdView) findViewById(R.id.adView);
+        btnHistory = (ImageView) findViewById(R.id.btn_history);
         btnFlash.setOnClickListener(this);
         btnImage.setOnClickListener(this);
+        btnHistory.setOnClickListener(this);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .addTestDevice("73957908AF204D3C3BD6DD4DA2BD36F4")//红米4测试码
@@ -97,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void handleResult(Result result) {
         Toast.makeText(this, result.getText(), Toast.LENGTH_SHORT).show();
+        DBOperater dbOperater=new DBOperater(this,1);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy - MM - dd");
+        String timeFormat = sdf.format(new Date());
+        dbOperater.updateHistory(result.getText(),timeFormat);
         startResultActivity(result.getText());
     }
 
@@ -124,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 break;
             case R.id.btn_image:
                 Intent imgSelect;
+                //区分版本不同，调用新的api，实践后发现，其实都可以用
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                    imgSelect = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 //                } else {
@@ -132,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 imgSelect.setType("image/*");
                 startActivityForResult(imgSelect, IMG_REQUEST_CODE);
                 break;
+            case R.id.btn_history:
+                startActivity(new Intent(this,HistoryActivity.class));
         }
     }
 
@@ -147,9 +161,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 try {
                     //data中带有返回的uri
                     Uri photoUri = data.getData();
-                    //由于这个方法返回的bitmap没有进行压缩处理，可能会OOM，但是要读取二维码，就不压缩了
                     Bitmap photoBitmap = null;
+                    //由于这个方法返回的bitmap没有进行压缩处理，可能会OOM，但是要读取二维码，就不压缩了。
+                    // 补充，还是要进行压缩，或者判断图片大小，或者裁剪，否则用户点了一个大图，就 OOM 了
                     photoBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
+                    //下面这个方法是从网上找到，英文文档看不懂，其他的解决方法都是过时的，就这个是好用的
+                    //来源：http://blog.csdn.net/a102111/article/details/48377537
+                    //感谢这位作者
                     String result = QRCodeUtils.getStringFromQRCode(photoBitmap);
                     startResultActivity(result);
                 } catch (IOException e) {

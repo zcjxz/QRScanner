@@ -8,12 +8,15 @@ import android.widget.Toast;
 
 public class MyOpenHelper extends SQLiteOpenHelper{
     private Context mContext;
-    private static final String TABLE_NAME="History";
-    private static final String CL_ID="id";
-    private static final String CL_TEXT="text";
-    private static final String CREATE_DB="create table if no exists"+TABLE_NAME+" (" +
-            CL_ID+" integer primary key autoincrement" +
-            CL_TEXT+" text)";
+    public static final String TABLE_NAME="History";
+    public static final String CL_ID="id";
+    public static final String CL_TEXT="text";
+    public static final String CL_TIME="time";
+                                            //CREATE TABLE IF NOT EXISTS
+    private static final String CREATE_DB="create table if not exists "+TABLE_NAME+" (" +
+            CL_ID+" integer primary key autoincrement ," +
+            CL_TEXT+" text," +
+            CL_TIME+" text )";
 
     public MyOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
