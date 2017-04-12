@@ -38,6 +38,7 @@ public class DBOperater {
                 MyOpenHelper.CL_TEXT + " = ?",
                 new String[]{text}, null, null, null, null);
         if (cursor.moveToFirst()){
+            deleteHistory(text);
             ContentValues values=new ContentValues();
             values.put(MyOpenHelper.CL_TEXT,text);
             values.put(MyOpenHelper.CL_TIME,time);

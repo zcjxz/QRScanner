@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.guowei.qrscanner.R;
+import com.guowei.qrscanner.dialog.ScannerDialog;
 import com.guowei.qrscanner.utils.CopyUtil;
 
 import java.util.regex.Pattern;
@@ -59,6 +60,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
                 .addTestDevice("73957908AF204D3C3BD6DD4DA2BD36F4")//红米4测试码
                 .addTestDevice("46E4E6B0DD6C71F38DC6F64A53BEAC0D")//华为测试码
                 .addTestDevice("00324B61CF9CF3A064D03C379CA05E5F")//联想测试码
+                .addTestDevice("A8657DFAACEC4DAC0A9D8BCB836772F8")//oppo测试码
                 .build();
         adView.loadAd(adRequest);
     }
